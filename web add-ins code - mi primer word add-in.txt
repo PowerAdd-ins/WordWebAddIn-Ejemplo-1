@@ -1,0 +1,326 @@
+****************************manifest file****************************
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Created:ce44715c-8c4e-446b-879c-ea9ebe0f09c8-->
+<OfficeApp
+          xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+          xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
+          xsi:type="TaskPaneApp">
+
+  <!-- Begin Basic Settings: Add-in metadata, used for all versions of Office unless override provided. -->
+
+  <!-- IMPORTANT! Id must be unique for your add-in, if you reuse this manifest ensure that you change this id to a new GUID. -->
+  <Id>d8e511bb-0e2a-41e8-9c7a-dbaa71b85545</Id>
+
+  <!--Version. Updates from the store only get triggered if there is a version change. -->
+  <Version>1.0.0.0</Version>
+  <ProviderName>Power Add-ins</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <!-- The display name of your add-in. Used on the store and various places of the Office UI such as the add-ins dialog. -->
+  <DisplayName DefaultValue="Office Word Add-in" />
+  <Description DefaultValue="Office Word Add-in"/>
+  <!-- Icon for your add-in. Used on installation screens and the add-ins dialog. -->
+  <IconUrl DefaultValue="~remoteAppUrl/Images/Button32x32.png" />
+
+  <SupportUrl DefaultValue="http://www.midominio.com" />
+  <!-- Domains that will be allowed when navigating. For example, if you use ShowTaskpane and then have an href link, navigation will only be allowed if the domain is on this list. -->
+  <AppDomains>
+    <AppDomain>AppDomain1</AppDomain>
+    <AppDomain>AppDomain2</AppDomain>
+    <AppDomain>AppDomain3</AppDomain>
+  </AppDomains>
+  <!--End Basic Settings. -->
+
+  <!--Begin TaskPane Mode integration. This section is used if there are no VersionOverrides or if the Office client version does not support add-in commands. -->
+  <Hosts>
+    <Host Name="Document" />
+  </Hosts>
+  <DefaultSettings>
+    <SourceLocation DefaultValue="~remoteAppUrl/Home.html" />
+  </DefaultSettings>
+  <!-- End TaskPane Mode integration.  -->
+
+  <Permissions>ReadWriteDocument</Permissions>
+
+  <!-- Begin Add-in Commands Mode integration. -->
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
+
+    <!-- The Hosts node is required. -->
+    <Hosts>
+      <!-- Each host can have a different set of commands. -->
+      <!-- Excel host is Workbook, Word host is Document, and PowerPoint host is Presentation. -->
+      <!-- Make sure the hosts you override match the hosts declared in the top section of the manifest. -->
+      <Host xsi:type="Document">
+        <!-- Form factor. Currently only DesktopFormFactor is supported. -->
+        <DesktopFormFactor>
+          <!--"This code enables a customizable message to be displayed when the add-in is loaded successfully upon individual install."-->
+          <GetStarted>
+            <!-- Title of the Getting Started callout. The resid attribute points to a ShortString resource -->
+            <Title resid="midominio.GetStarted.Title"/>
+
+            <!-- Description of the Getting Started callout. resid points to a LongString resource -->
+            <Description resid="midominio.GetStarted.Description"/>
+
+            <!-- Points to a URL resource which details how the add-in should be used. -->
+            <LearnMoreUrl resid="midominio.GetStarted.MoreUrl"/>
+          </GetStarted>
+          <!-- Function file is a HTML page that includes the JavaScript where functions for ExecuteAction will be called. 
+            Think of the FunctionFile as the code behind ExecuteFunction. -->
+          <FunctionFile resid="midominio.FunctionFile.Url" />
+
+          <!-- PrimaryCommandSurface is the main Office Ribbon. -->
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <!-- Use OfficeTab to extend an existing Tab. Use CustomTab to create a new tab. -->
+            <!--<OfficeTab id="TabHome">-->
+            <CustomTab id="midominio.Tab1">
+              <!-- Ensure you provide a unique id for the group. Recommendation for any IDs is to namespace using your company name. -->
+              <Group id="midominio.Group1">
+                <!-- Label for your group. resid must point to a ShortString resource. -->
+                <Label resid="midominio.Group1Label" />
+                <!-- Icons. Required sizes 16,32,80, optional 20, 24, 40, 48, 64. Strongly recommended to provide all sizes for great UX. -->
+                <!-- Use PNG icons. All URLs on the resources section must use HTTPS. -->
+                <Icon>
+                  <bt:Image size="16" resid="midominio.tpicon_16x16" />
+                  <bt:Image size="32" resid="midominio.tpicon_32x32" />
+                  <bt:Image size="80" resid="midominio.tpicon_80x80" />
+                </Icon>
+
+                <!-- Control. It can be of type "Button" or "Menu". -->
+                <Control xsi:type="Button" id="midominio.TaskpaneButton">
+                  <Label resid="midominio.TaskpaneButton.Label"/>
+                  <Supertip>
+                    <!-- ToolTip title. resid must point to a ShortString resource. -->
+                    <Title resid="midominio.TaskpaneButton.SupTip" />
+                    <!-- ToolTip description. resid must point to a LongString resource. -->
+                    <Description resid="midominio.TaskpaneButton.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="midominio.tpicon_16x16" />
+                    <bt:Image size="32" resid="midominio.tpicon_32x32" />
+                    <bt:Image size="80" resid="midominio.tpicon_80x80" />
+                  </Icon>
+
+                  <!-- This is what happens when the command is triggered (E.g. click on the Ribbon). Supported actions are ExecuteFunction or ShowTaskpane. -->
+
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>TaskpaneId1</TaskpaneId>
+                    <!-- Provide a URL resource id for the location that will be displayed on the task pane. -->
+                    <SourceLocation resid="midominio.Taskpane.Url" />
+                  </Action>
+                </Control>
+                <!--
+                <Control xsi:type="Button" id="midominio.TaskpaneButton1">
+                  <Label resid="midominio.TaskpaneButton.Label"/>
+                  <Supertip>
+                    <Title resid="midominio.TaskpaneButton.Label" />
+                    <Description resid="midominio.TaskpaneButton.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="midominio.tpicon_16x16" />
+                    <bt:Image size="32" resid="midominio.tpicon_32x32" />
+                    <bt:Image size="80" resid="midominio.tpicon_80x80" />
+                  </Icon>
+
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>TaskpaneId2</TaskpaneId>
+                    <SourceLocation resid="midominio.Taskpane1.Url" />
+                  </Action>
+                </Control>-->
+
+              </Group>
+              <!-- Label of your tab -->
+              <!-- If validating with XSD it needs to be at the end -->
+              <Label resid="midominio.Tab1.TabLabel"/>
+            </CustomTab>
+            <!--</OfficeTab>-->
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+
+    <!-- You can use resources across hosts and form factors. -->
+    <Resources>
+      <bt:Images>
+        <bt:Image id="midominio.tpicon_16x16" DefaultValue="~remoteAppUrl/Images/Button16x16.png" />
+        <bt:Image id="midominio.tpicon_32x32" DefaultValue="~remoteAppUrl/Images/Button32x32.png" />
+        <bt:Image id="midominio.tpicon_80x80" DefaultValue="~remoteAppUrl/Images/HappyFace.png" />
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="midominio.FunctionFile.Url" DefaultValue="~remoteAppUrl/Functions/FunctionFile.html" />
+        <bt:Url id="midominio.Taskpane.Url" DefaultValue="~remoteAppUrl/Home.html" />
+        <bt:Url id="midominio.Taskpane1.Url" DefaultValue="~remoteAppUrl/Home1.html" />
+        <bt:Url id="midominio.GetStarted.MoreUrl" DefaultValue="https://go.microsoft.com/fwlink/?LinkId=276812" />
+      </bt:Urls>
+      <!-- ShortStrings max characters==125. -->
+      <bt:ShortStrings>
+        <bt:String id="midominio.Tab1.TabLabel" DefaultValue="Mis Opciones" />
+        <bt:String id="midominio.Group1Label" DefaultValue="Mis Opciones" />
+        <bt:String id="midominio.TaskpaneButton.Label" DefaultValue="Hola" />
+        <bt:String id="midominio.TaskpaneButton.SupTip" DefaultValue="Mostrar Taskpane" />
+        <bt:String id="midominio.GetStarted.Title" DefaultValue="Este es mi Office Add-ins!" />
+      </bt:ShortStrings>
+      <!-- LongStrings max characters==250. -->
+      <bt:LongStrings>        
+        <bt:String id="midominio.TaskpaneButton.Tooltip" DefaultValue="Carga y muestra el Taskpane" />
+        <bt:String id="midominio.GetStarted.Description" DefaultValue="El add-in se cargó correctamente!." />
+      </bt:LongStrings>
+    </Resources>
+  </VersionOverrides>
+  <!-- End Add-in Commands Mode integration. -->
+
+</OfficeApp>
+
+****************************************css**************************************************
+
+#content-header {
+    background: #2a8dd4;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    overflow: hidden;
+}
+
+#content-main {
+    background: #fff;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+}
+
+.padding {
+    padding: 15px;
+}
+
+****************************************html*************************************************
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title>My Word Add-In</title>
+
+    <script src="Scripts/jquery-1.9.1.js" type="text/javascript"></script>
+    <script src="Scripts/FabricUI/MessageBanner.js" type="text/javascript"></script>
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js" type="text/javascript"></script>
+
+    <!-- To enable offline debugging using a local reference to Office.js, use:                        -->
+    <!-- <script src="Scripts/Office/MicrosoftAjax.js" type="text/javascript"></script>  -->
+    <!-- <script src="Scripts/Office/1/office.js" type="text/javascript"></script>  -->
+
+    <link href="Home.css" rel="stylesheet" type="text/css" />
+    <script src="Home.js" type="text/javascript"></script>
+
+    <!-- For the Office UI Fabric, go to https://aka.ms/office-ui-fabric to learn more. -->
+    <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.min.css">
+    <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.components.min.css">
+
+    <!-- To enable the offline use of Office UI Fabric, use: -->
+    <!-- link rel="stylesheet" href="Content/fabric.min.css" -->
+    <!-- link rel="stylesheet" href="Content/fabric.components.min.css" -->
+</head>
+<body>
+    <div id="content-header">
+        <div class="padding">
+            <h1>Hola!!!</h1>
+        </div>
+    </div>
+    <div id="content-main">
+        <div class="padding">
+            <p>Este ejemplo usa Word JavaScript API.</p>
+            <br />
+            <button id="button1">Show Welcome</button>
+            <br /><br />
+        </div>
+    </div>
+    <br />
+    <div id="supportedVersion" />
+</body>
+</html>
+
+
+****************************************js***************************************************
+
+
+'use strict';
+
+(function () {
+
+    // The initialize function is run each time the page is loaded.
+    Office.initialize = function (reason) {
+        
+        $(document).ready(function () {
+
+            // Use this to check whether the API is supported in the Word client.
+            if (Office.context.requirements.isSetSupported('WordApi', 1.1)) {
+                // Do something that is only available via the new APIs
+                $('#button1').click(show_Welcome);
+                //$('#button2').click(clear);
+                $('#supportedVersion').html('This code is using Word 2016 or greater.');
+            }
+            
+            else {
+                // Just letting you know that this code will not work with your version of Word.
+                $('#supportedVersion').html('This code requires Word 2016 or greater.');
+            }
+        });
+    };
+
+    function show_Welcome() {
+        Word.run(function (context) {
+
+            var thisDocument = context.document;
+
+            var range = thisDocument.getSelection();
+                                 
+            //thisDocument.body.clear();
+            range.insertText('"Bienvenidos a nuestro curso de Office Add-ins!!!"\n', Word.InsertLocation.start);
+            range.font.size = 30;
+
+            // Synchronize the document state by executing the queued commands,
+            // and return a promise to indicate task completion.
+            return context.sync().then(function () {
+               
+            });
+        })
+            .catch(function (error) {
+                console.log('Error: ' + JSON.stringify(error));
+                if (error instanceof OfficeExtension.Error) {
+                    console.log('Debug info: ' + JSON.stringify(error.debugInfo));
+                }
+            });
+    }
+
+
+    function clear() {
+        Word.run(function (context) {
+
+            var thisDocument = context.document;
+
+            var range = thisDocument.getSelection();
+
+            thisDocument.body.clear();
+            
+            // Synchronize the document state by executing the queued commands,
+            // and return a promise to indicate task completion.
+            return context.sync().then(function () {
+
+            });
+        })
+            .catch(function (error) {
+                console.log('Error: ' + JSON.stringify(error));
+                if (error instanceof OfficeExtension.Error) {
+                    console.log('Debug info: ' + JSON.stringify(error.debugInfo));
+                }
+            });
+    }
+    
+})();
